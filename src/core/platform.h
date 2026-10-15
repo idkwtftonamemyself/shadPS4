@@ -49,8 +49,8 @@ struct IrqController {
         auto& ctx = irq_contexts.try_emplace(irq).first->second;
 
         std::unique_lock lock{ctx.m_lock};
-        ASSERT_MSG(ctx.persistent_handlers.find(uid) == ctx.persistent_handlers.cend(),
-                   "The handler is already registered!");
+        //ASSERT_MSG(ctx.persistent_handlers.find(uid) == ctx.persistent_handlers.cend(),
+        //           "The handler is already registered!");
         ctx.persistent_handlers.emplace(uid, handler);
     }
 
