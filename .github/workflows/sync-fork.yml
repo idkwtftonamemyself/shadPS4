@@ -6,10 +6,17 @@ name: Sync and build
 on:
   schedule:
     - cron: "*/10 * * * *"
-  workflow_dispatch:       # manual run, always builds
+  workflow_dispatch:
 
 permissions:
   contents: write
+
+concurrency:
+  group: sync-and-build
+  cancel-in-progress: true
+
+env:
+  BUILD_TYPE: Release
 
 jobs:
   sync:
@@ -34,23 +41,32 @@ jobs:
   build:
     needs: sync
     if: needs.sync.outputs.changed == 'true'
-    runs-on: windows-latest
+    runs-on: windows-2025-vs2026
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           ref: main
           submodules: recursive
 
-      - name: Configure
-        run: cmake -B build -DCMAKE_BUILD_TYPE=Release -T ClangCL
+      - name: Cache CMake Build
+        uses: hendrikmuhs/ccache-action@v1.2.21
+        env:
+          cache-name: ${{ runner.os }}-sdl-cache-cmake-build
+        with:
+          append-timestamp: false
+          key: ${{ env.cache-name }}-${{ hashFiles('**/CMakeLists.txt', 'cmake/**') }}
+
+      - name: Configure CMake
+        run: cmake --fresh -G Ninja -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DCMAKE_INTERPROCEDURAL_OPTIMIZATION_RELEASE=ON -DCMAKE_C_COMPILER=clang-cl -DCMAKE_CXX_COMPILER=clang-cl -DCMAKE_C_COMPILER_LAUNCHER=ccache -DCMAKE_CXX_COMPILER_LAUNCHER=ccache
 
       - name: Build
-        run: cmake --build build --config Release --parallel
+        run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}} --parallel $env:NUMBER_OF_PROCESSORS
 
       - name: Upload exe
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
-          name: shadps4-win64
+          name: shadps4-win64-sdl
+          path: ${{github.workspace}}/build/shadPS4.exe
           path: |
             build/Release/*.exe
             build/Release/*.dll
