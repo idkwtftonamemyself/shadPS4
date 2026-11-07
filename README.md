@@ -5,7 +5,7 @@ SPDX-License-Identifier: GPL-2.0-or-later
 
 <h1 align="center">
   <br>
-  <a href="https://shadps4.net/"><img src="https://github.com/shadps4-emu/shadPS4/blob/main/.github/shadps4.png" width="220"></a>
+  <a href="https://shadps4.net/"><img src="https://github.com/idkwtftonamemyself/shadPS4/blob/main/.github/shadps4.png" width="220"></a>
   <br>
   <b>shadPS4</b>
   <br>
@@ -14,13 +14,13 @@ SPDX-License-Identifier: GPL-2.0-or-later
 <h1 align="center">
  <a href="https://discord.gg/bFJxfftGW6">
         <img src="https://img.shields.io/discord/1080089157554155590?color=5865F2&label=shadPS4%20Discord&logo=Discord&logoColor=white" width="275">
- <a href="https://github.com/shadps4-emu/shadPS4/releases/latest">
+ <a href="https://github.com/idkwtftonamemyself/shadPS4/releases/latest">
         <img src="https://img.shields.io/github/downloads/shadps4-emu/shadPS4/total.svg" width="140">
  <a href="https://shadps4.net/">
         <img src="https://img.shields.io/badge/shadPS4-website-8A2BE2" width="150">
  <a href="https://x.com/shadps4">
         <img src="https://img.shields.io/badge/-Join%20us-black?logo=X&logoColor=white" width="100">
- <a href="https://github.com/shadps4-emu/shadPS4/stargazers">
+ <a href="https://github.com/idkwtftonamemyself/shadPS4/stargazers">
         <img src="https://img.shields.io/github/stars/shadps4-emu/shadPS4" width="120">
 </h1>
 
@@ -37,9 +37,9 @@ SPDX-License-Identifier: GPL-2.0-or-later
 **shadPS4** is an early **PlayStation 4** emulator for **Windows**, **Linux** and **macOS** written in C++.
 
 > [!IMPORTANT]
-> This is the emulator core, which does not include a GUI. If you just want to use the emulator as an end user, download the [**QtLauncher**](https://github.com/shadps4-emu/shadps4-qtlauncher/releases) instead.
+> This is the emulator core, which does not include a GUI. If you just want to use the emulator as an end user, download the [**QtLauncher**](https://github.com/idkwtftonamemyself/shadPS4-qtlauncher/releases) instead.
 
-If you encounter problems or have doubts, do not hesitate to look at the [**Quickstart**](https://github.com/shadps4-emu/shadPS4/wiki/I.-Quick-start-%5BUsers%5D).\
+If you encounter problems or have doubts, do not hesitate to look at the [**Quickstart**](https://github.com/idkwtftonamemyself/shadPS4/wiki/I.-Quick-start-%5BUsers%5D).\
 To verify that a game works, you can look at [**shadPS4 Game Compatibility**](https://github.com/shadps4-compatibility/shadps4-game-compatibility).\
 To discuss shadPS4 development, suggest ideas or to ask for help, join our [**Discord server**](https://discord.gg/bFJxfftGW6).\
 To get the latest news, go to our [**X (Twitter)**](https://x.com/shadps4) or our [**website**](https://shadps4.net/).\
@@ -61,19 +61,19 @@ This project began for fun. Given our limited free time, it may take some time b
 ## Docker
 
 For building shadPS4 in a containerized environment using Docker and VSCode, check the instructions here:  
-[**Docker Build Instructions**](https://github.com/shadps4-emu/shadPS4/blob/main/documents/building-docker.md)
+[**Docker Build Instructions**](https://github.com/idkwtftonamemyself/shadPS4/blob/main/documents/building-docker.md)
 
 ## Windows
 
-Check the build instructions for [**Windows**](https://github.com/shadps4-emu/shadPS4/blob/main/documents/building-windows.md).
+Check the build instructions for [**Windows**](https://github.com/idkwtftonamemyself/shadPS4/blob/main/documents/building-windows.md).
 
 ## Linux
 
-Check the build instructions for [**Linux**](https://github.com/shadps4-emu/shadPS4/blob/main/documents/building-linux.md).
+Check the build instructions for [**Linux**](https://github.com/idkwtftonamemyself/shadPS4/blob/main/documents/building-linux.md).
 
 ## macOS
 
-Check the build instructions for [**macOS**](https://github.com/shadps4-emu/shadPS4/blob/main/documents/building-macos.md).
+Check the build instructions for [**macOS**](https://github.com/idkwtftonamemyself/shadPS4/blob/main/documents/building-macos.md).
 
 > [!IMPORTANT]
 > macOS users need at least macOS 26.0 to run shadPS4. Intel Macs are not supported.
@@ -81,7 +81,7 @@ Check the build instructions for [**macOS**](https://github.com/shadps4-emu/shad
 # Usage examples
 
 > [!IMPORTANT]
-> For a user-friendly GUI, download the [**QtLauncher**](https://github.com/shadps4-emu/shadps4-qtlauncher/releases).
+> For a user-friendly GUI, download the [**QtLauncher**](https://github.com/idkwtftonamemyself/shadPS4-qtlauncher/releases).
 
 To get the list of all available commands and also a more detailed description of what each command does, please refer to the `--help` flag's output.
 
@@ -96,7 +96,7 @@ shadPS4 CUSA00001 -- -flag1 -flag2 # Passes '-flag1' and '-flag2' to the game ex
 
 # Debugging and reporting issues
 
-For more information on how to test, debug and report issues with the emulator or games, read the [**Debugging documentation**](https://github.com/shadps4-emu/shadPS4/blob/main/documents/Debugging/Debugging.md).
+For more information on how to test, debug and report issues with the emulator or games, read the [**Debugging documentation**](https://github.com/idkwtftonamemyself/shadPS4/blob/main/documents/Debugging/Debugging.md).
 
 # Keyboard and Mouse Mappings
 
@@ -182,13 +182,13 @@ The following firmware modules are supported and must be placed in shadPS4's `sy
 
 Logo is done by [**Xphalnos**](https://github.com/Xphalnos)
 
-<a href="https://github.com/shadps4-emu/shadPS4/graphs/contributors">
+<a href="https://github.com/idkwtftonamemyself/shadPS4/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=shadps4-emu/shadPS4&max=24">
 </a>
 
 # Contributing
 
-If you want to contribute, please read the [**CONTRIBUTING.md**](https://github.com/shadps4-emu/shadPS4/blob/main/CONTRIBUTING.md) file.\
+If you want to contribute, please read the [**CONTRIBUTING.md**](https://github.com/idkwtftonamemyself/shadPS4/blob/main/CONTRIBUTING.md) file.\
 Open a PR and we'll check it :)
 
 
@@ -208,4 +208,4 @@ A few noteworthy teams/projects who've helped us along the way are:
 
 # License
 
-- [**GPL-2.0 license**](https://github.com/shadps4-emu/shadPS4/blob/main/LICENSE)
+- [**GPL-2.0 license**](https://github.com/idkwtftonamemyself/shadPS4/blob/main/LICENSE)
