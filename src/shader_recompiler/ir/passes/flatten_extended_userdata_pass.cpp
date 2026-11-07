@@ -295,7 +295,6 @@ static bool EmitComputeOffsetShiftLeftLogical32(Xbyak::CodeGenerator& c, Xbyak::
     ASSERT(!inst->AreAllArgsImmediates());
     if (inst->Arg(0).IsImmediate()) {
         ABORT_ON_FAILURE(ComputeOffset(c, reg, pass_info, inst->Arg(1)));
-        c.shl(reg, inst->Arg(0).U32());
         c.mov(ecx, reg);
         c.mov(reg, inst->Arg(0).U32());
         c.shl(reg, cl);
@@ -485,6 +484,17 @@ static bool EmitComputeOffsetBitFieldUExtract(Xbyak::CodeGenerator& c, Xbyak::Re
     return true;
 }
 
+static bool EmitComputeOffsetFindILsb32(Xbyak::CodeGenerator& c, Xbyak::Reg32 reg,
+                                        PassInfo& pass_info, IR::Inst* inst) {
+    ASSERT(!inst->AreAllArgsImmediates());
+    ABORT_ON_FAILURE(ComputeOffset(c, reg, pass_info, inst->Arg(0)));
+    // bsf leaves its destination undefined for a zero input and sets ZF, so return -1 then.
+    c.mov(ecx, 0xFFFFFFFFu);
+    c.bsf(reg, reg);
+    c.cmovz(reg, ecx);
+    return true;
+}
+
 static bool IsAllowedOffsetInstruction(const IR::Inst* inst) {
     switch (inst->GetOpcode()) {
     case IR::Opcode::GetUserData:
@@ -501,6 +511,7 @@ static bool IsAllowedOffsetInstruction(const IR::Inst* inst) {
     case IR::Opcode::BitwiseNot32:
     case IR::Opcode::UMin32:
     case IR::Opcode::UMax32:
+    case IR::Opcode::FindILsb32:
     case IR::Opcode::BitFieldUExtract:
         return true;
     default:
@@ -556,6 +567,9 @@ static bool ComputeOffset(Xbyak::CodeGenerator& c, Xbyak::Reg32 reg, PassInfo& p
     case IR::Opcode::UMax32:
         ABORT_ON_FAILURE(EmitComputeOffsetUMax32(c, reg, pass_info, inst));
         return true;
+    case IR::Opcode::FindILsb32:
+        ABORT_ON_FAILURE(EmitComputeOffsetFindILsb32(c, reg, pass_info, inst));
+        return true;
     case IR::Opcode::BitFieldUExtract:
         ABORT_ON_FAILURE(EmitComputeOffsetBitFieldUExtract(c, reg, pass_info, inst));
         return true;
@@ -571,7 +585,10 @@ static inline bool PushPtr(Xbyak::CodeGenerator& c, PassInfo& pass_info, const I
     if (off_dw.IsImmediate()) {
         c.mov(rdi, ptr[rdi + (off_dw.U32() << 2)]);
     } else {
-        ABORT_ON_FAILURE(ComputeOffset(c, r10d, pass_info, off_dw));
+        if (!ComputeOffset(c, r10d, pass_info, off_dw)) {
+            c.pop(rdi);
+            return false;
+        }
         c.shl(r10d, 2);
         c.mov(r10d, r10d);
         c.mov(rdi, ptr[rdi + r10]);
