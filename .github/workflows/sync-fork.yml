@@ -1,12 +1,12 @@
 # SPDX-FileCopyrightText: Copyright 2026 shadPS4 Emulator Project
 # SPDX-License-Identifier: GPL-2.0-or-later
 
-name: Sync fork
+name: Sync and build
 
 on:
   schedule:
     - cron: "*/10 * * * *"
-  workflow_dispatch:
+  workflow_dispatch:       # manual run, always builds
 
 permissions:
   contents: write
@@ -14,10 +14,43 @@ permissions:
 jobs:
   sync:
     runs-on: ubuntu-latest
+    outputs:
+      changed: ${{ steps.merge.outputs.changed }}
     steps:
       - name: Merge upstream into main
+        id: merge
         env:
           GH_TOKEN: ${{ secrets.SYNC_TOKEN }}
         run: |
-          gh api repos/${{ github.repository }}/merge-upstream \
-            -f branch=main
+          result=$(gh api repos/${{ github.repository }}/merge-upstream \
+            -f branch=main --jq .merge_type)
+          echo "merge_type: $result"
+          if [ "$result" = "none" ] && [ "${{ github.event_name }}" != "workflow_dispatch" ]; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+  build:
+    needs: sync
+    if: needs.sync.outputs.changed == 'true'
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          submodules: recursive
+
+      - name: Configure
+        run: cmake -B build -DCMAKE_BUILD_TYPE=Release -T ClangCL
+
+      - name: Build
+        run: cmake --build build --config Release --parallel
+
+      - name: Upload exe
+        uses: actions/upload-artifact@v4
+        with:
+          name: shadps4-win64
+          path: |
+            build/Release/*.exe
+            build/Release/*.dll
