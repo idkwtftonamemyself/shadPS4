@@ -67,6 +67,3 @@ jobs:
         with:
           name: shadps4-win64-sdl
           path: ${{github.workspace}}/build/shadPS4.exe
-          path: |
-            build/Release/*.exe
-            build/Release/*.dll
