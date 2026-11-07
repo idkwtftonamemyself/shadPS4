@@ -369,6 +369,14 @@ void Rasterizer::DispatchIndirect(VAddr address, u32 offset, u32 size) {
         return;
     }
 
+    const auto& cs_dbg = pipeline->GetStage(Shader::SwStage::Compute);
+    if (cs_dbg.pgm_hash == 0x110717a7) {
+        const u32* args = reinterpret_cast<const u32*>(address + offset);
+        LOG_INFO(Render_Vulkan, "[DISPATCHDBG] cs={:#x} size={} groups={} {} {}", cs_dbg.pgm_hash,
+                 size, args[0], args[1], args[2]);
+        return;
+    }
+
     if (!BindResources(pipeline)) {
         return;
     }
