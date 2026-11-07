@@ -290,9 +290,10 @@ void MarkReadConstBufferSharpSources(const SharpReference& sharp) {
         if (!IsSharpSource(source)) {
             // Sharp dword is computed by a pattern we don't recognize (e.g. a select or bit
             // manipulation). Don't abort; the patching pass will mark this sharp as invalid.
-            LOG_WARNING(Render_Recompiler,
-                        "Sharp dword {} produced by unsupported opcode {}, sharp fetch may be wrong",
-                        i, IR::NameOf(source->GetOpcode()));
+            LOG_WARNING(
+                Render_Recompiler,
+                "Sharp dword {} produced by unsupported opcode {}, sharp fetch may be wrong", i,
+                IR::NameOf(source->GetOpcode()));
             continue;
         }
         if (source->GetOpcode() == IR::Opcode::ReadConstBuffer) {
